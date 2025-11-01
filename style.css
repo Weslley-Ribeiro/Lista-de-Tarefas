@@ -1,0 +1,71 @@
+*  {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+    color: greenyellow;
+}
+
+#input-tarefa {
+    background-color: #1a1a1a; 
+    color: greenyellow;  
+    border: 2px solid greenyellow;
+    padding: 10px;  
+    border-radius: 5px;
+
+}
+
+button {
+    border-radius: 5px;
+    color: black;
+    background-color: greenyellow;
+    cursor: pointer;
+    padding: 10px;
+}
+
+#btn-tema {
+    font-family: Arial, Helvetica, sans-serif;  /* melhor para emojis */
+    font-size: 24px;  /* emoji maior */
+    padding: 12px 16px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    border-radius: 50%;  /* deixa redondo! 🔴 */
+    width: 50px;   /* largura fixa */
+    height: 50px;  /* altura fixa */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#lista-tarefa {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background-color: limegreen;
+}
+
+header {
+    margin-bottom: 30px;  
+    text-align: center;  
+}
+
+section {
+    margin-bottom: 30px;  
+    display: flex;
+    gap: 10px;  
+}
