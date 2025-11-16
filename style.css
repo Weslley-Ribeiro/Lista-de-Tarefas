@@ -69,3 +69,29 @@ section {
     display: flex;
     gap: 10px;  
 }
+
+.concluida {
+    text-decoration: line-through;
+    opacity: 0.6;
+    color: gray;
+}
+/* TEMA CLARO */
+body.tema-claro {
+    background-color: #f0f0f0;
+    color: #0716e6;
+}
+
+body.tema-claro #input-tarefa {
+    background-color: white;
+    color: #0716e6;
+    border-color: #0716e6;
+}
+
+body.tema-claro button {
+    background-color: #0716e6;
+    color: white;
+}
+
+body.tema-claro button:hover {
+    background-color: #0716e6;
+}
