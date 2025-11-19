@@ -4,35 +4,90 @@ const listaTarefa = document.getElementById('lista-tarefa');
 const elementoDataHora = document.getElementById('data-hora');
 const btnTema = document.getElementById('btn-tema');
 
+let tarefas = carregarTarefas();
+
+// Função para SALVAR tarefas no localStorage
+function salvarTarefas(tarefas) {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+}
+
+// Função para CARREGAR tarefas do localStorage
+function carregarTarefas() {
+    const tarefasSalvas = localStorage.getItem('tarefas');
+    return tarefasSalvas ? JSON.parse(tarefasSalvas) : [];
+}
+
 console.log(inputTarefa);
 console.log(btnAdicionar);
 console.log(listaTarefa);
 
 function adicionarTarefa() {
-    const tarefa = inputTarefa.value;
+    const textoTarefa = inputTarefa.value;
+    
+    if (!textoTarefa) return; // não adiciona se estiver vazio
+    
+    // 1. Adicionar no array
+    const novaTarefa = {
+        texto: textoTarefa,
+        concluida: false
+    };
+    tarefas.push(novaTarefa);
+    
+    // 2. Salvar no localStorage
+    salvarTarefas(tarefas);
+    
+    // 3. Criar o <li> e mostrar na tela
+    criarElementoTarefa(novaTarefa, tarefas.length - 1);
+    
+    // 4. Limpar input
+    inputTarefa.value = '';
+}
+
+function criarElementoTarefa(tarefa, indice) {
     const lista = document.createElement('li');
-    const btnDeletar = document.createElement('button'); 
+    lista.textContent = tarefa.texto;
     
-    lista.textContent = tarefa;
+    // Se a tarefa está concluída, adiciona a classe
+    if (tarefa.concluida) {
+        lista.classList.add('concluida');
+    }
+    
+    // Botão deletar
+    const btnDeletar = document.createElement('button');
     btnDeletar.textContent = '❌';
-    
-    // Evento do botão
-    btnDeletar.addEventListener('click', function(){
+    btnDeletar.addEventListener('click', function() {
+        // Remover do array
+        tarefas.splice(indice, 1);
+        // Salvar
+        salvarTarefas(tarefas);
+        // Remover da tela
         lista.remove();
     });
-
-    lista.addEventListener('click', function() {
+    
+    // Clique para marcar/desmarcar como concluída
+    lista.addEventListener('click', function(e) {
+        // Evita conflito com o botão deletar
+        if (e.target === btnDeletar) return;
+        
         lista.classList.toggle('concluida');
+        // Atualizar no array
+        tarefa.concluida = !tarefa.concluida;
+        // Salvar
+        salvarTarefas(tarefas);
     });
     
-    // Adicionar botão dentro do <li>
     lista.appendChild(btnDeletar);
-    
-    // Adicionar <li> na lista (SÓ UMA VEZ!)
     listaTarefa.appendChild(lista);
+}
+
+function renderizarTarefas() {
+    // Limpa a lista antes de renderizar
+    listaTarefa.innerHTML = '';
     
-    // Limpar input (SÓ UMA VEZ!)
-    inputTarefa.value = '';
+    // Cria cada tarefa salva
+    tarefas.forEach((tarefa, indice) => {
+        criarElementoTarefa(tarefa, indice);
+    });
 }
 
 function atualizarDataHora() {
@@ -64,6 +119,8 @@ function trocarTema() {
 
 btnTema.addEventListener('click', trocarTema);
 btnAdicionar.addEventListener('click', adicionarTarefa);
+
+renderizarTarefas();
 
 // Chamar imediatamente
 atualizarDataHora();
